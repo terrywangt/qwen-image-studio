@@ -5,7 +5,7 @@ const PROXY_KEY = process.env.PROXY_API_KEY || '';
 
 async function proxyFetch(path, init = {}) {
   const headers = { ...(init.headers || {}) };
-  if (PROXY_KEY) headers['x-api-key'] = PROXY_KEY;
+  if (PROXY_KEY) headers['Authorization'] = `Bearer ${PROXY_KEY}`;
   if (init.body && typeof init.body !== 'string') headers['Content-Type'] = 'application/json';
   const res = await fetch(`${PROXY_BASE}${path}`, { ...init, headers, cache: 'no-store' });
   let data;

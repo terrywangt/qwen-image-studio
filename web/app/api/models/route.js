@@ -6,7 +6,7 @@ const PROXY_KEY = process.env.PROXY_API_KEY || '';
 export async function GET() {
   try {
     const headers = {};
-    if (PROXY_KEY) headers['x-api-key'] = PROXY_KEY;
+    if (PROXY_KEY) headers['Authorization'] = `Bearer ${PROXY_KEY}`;
     const res = await fetch(`${PROXY_BASE}/models`, { headers, cache: 'no-store' });
     const data = await res.json().catch(() => null);
     return NextResponse.json(data || { models: [] });
