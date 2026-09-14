@@ -10,7 +10,7 @@ Qwen 账号(token) → FreeQwenApi 代理(3264) → Next.js Web(3000) → 浏览
 
 - `proxy/` — [FreeQwenApi](https://github.com/VernaculusF/FreeQwenApi)（MIT），Node + Puppeteer 模拟浏览器登录 chat.qwen.ai，输出 OpenAI 兼容 API；默认走 Qwen Chat 免费额度出图（不加水印）。
 - `web/` — Next.js 14 (App Router, standalone)：生成页 + 管理后台，token/API key 只在服务端。
-- `.github/workflows/docker-build.yml` — push main 自动构建两镜像推 Docker Hub。
+- `.github/workflows/docker-build.yml` — push main 自动构建两镜像推 GHCR (GitHub Container Registry)。
 
 ## 本地开发
 
@@ -36,12 +36,9 @@ docker compose up -d --build
 
 ## GitHub Actions 构建
 
-仓库 Settings → Secrets and variables → Actions 添加：
+无需额外凭据：GitHub Actions 自动用 `GITHUB_TOKEN` 登录 GHCR 推送镜像。
 
-- `DOCKERHUB_USERNAME` — Docker Hub 用户名
-- `DOCKERHUB_TOKEN` — Docker Hub Access Token
-
-push 到 main 自动构建 `terrywangt/qwen-image-studio-web` 与 `-proxy` 并推送 Docker Hub。
+push 到 main 自动构建 `ghcr.io/terrywangt/qwen-image-studio-web` 与 `-proxy` 并推送 GHCR。
 
 ## 说明
 

@@ -1,7 +1,7 @@
 services:
   proxy:
     build: ./proxy
-    image: terrywangt/qwen-image-studio-proxy:latest
+    image: ghcr.io/terrywangt/qwen-image-studio-proxy:latest
     container_name: qwen-image-studio-proxy
     restart: unless-stopped
     environment:
@@ -28,7 +28,7 @@ services:
 
   web:
     build: ./web
-    image: terrywangt/qwen-image-studio-web:latest
+    image: ghcr.io/terrywangt/qwen-image-studio-web:latest
     container_name: qwen-image-studio-web
     restart: unless-stopped
     depends_on:
