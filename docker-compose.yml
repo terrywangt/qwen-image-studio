@@ -1,0 +1,41 @@
+services:
+  proxy:
+    build: ./proxy
+    image: terrywangt/qwen-image-studio-proxy:latest
+    container_name: qwen-image-studio-proxy
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - PORT=3264
+      - HOST=0.0.0.0
+      - SKIP_ACCOUNT_MENU=true
+      - NON_INTERACTIVE=true
+      - REQUIRE_API_KEYS=true
+      - QWEN_USE_NODE_FETCH=0
+      - QWEN_TOOL_PROMPT_MODE=minimal
+    volumes:
+      - ./session:/app/session
+      - ./logs:/app/logs
+      - ./uploads:/app/uploads
+      - ./Authorization.txt:/app/src/Authorization.txt:ro
+    ports:
+      - "3264:3264"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3264/api/health').then(r=>r.json()).then(j=>{if(!j.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  web:
+    build: ./web
+    image: terrywangt/qwen-image-studio-web:latest
+    container_name: qwen-image-studio-web
+    restart: unless-stopped
+    depends_on:
+      - proxy
+    environment:
+      - PROXY_BASE_URL=http://proxy:3264/api
+      - PROXY_API_KEY=your-proxy-api-key
+      - PORT=3000
+    ports:
+      - "3000:3000"

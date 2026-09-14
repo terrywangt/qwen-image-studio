@@ -1,0 +1,16 @@
+# secrets & sessions — never commit
+.env
+session/
+logs/
+uploads/
+Authorization.txt
+*.log
+
+# node
+node_modules/
+.next/
+out/
+
+# os
+.DS_Store
+Thumbs.db
